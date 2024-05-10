@@ -12,6 +12,7 @@ var app = builder.Build();
 
 
 Funcionario funcionario = new Funcionario();
+FolhaPagamento folhaPagamento = new FolhaPagamento();
 
 List<Funcionario> funcionarios = new List<Funcionario>();
 List<FolhaPagamento> folhaPagamentos = new List<FolhaPagamento>();
@@ -40,7 +41,7 @@ app.MapPost("/api/funcionario/cadastrar/", ([FromBody] Funcionario funcionario, 
   return Results.Created("", funcionario);
 });
 
-//GET	api/funcionario/listar
+//GET	http://localhost:5206/api/funcionario/listar
 app.MapGet("/api/funcionario/listar", ([FromServices] AppDataContext ctx) => 
 {
     if(ctx.Funcionarios.Any())
@@ -52,11 +53,31 @@ app.MapGet("/api/funcionario/listar", ([FromServices] AppDataContext ctx) =>
 }
 );
 
-//POST	api/folha/cadastrar
+//POST	http://localhost:5206/api/folha/cadastrar
+app.MapPost("/api/folha/cadastrar/", ([FromBody] FolhaPagamento folhaPagamento, [FromServices] AppDataContext ctx) => 
+{   
+    
+  //Adicionar o produto dentro do banco de dados
+  ctx.FolhaPagamentos.Add(folhaPagamento);
+  ctx.SaveChanges();
 
+  return Results.Created("", folhaPagamento);
+});
 
-//GET	api/folha/listar
-//POST	api/folha/buscar/{cpf}/{mes}/{ano}
+//GET	http://localhost:5206/api/folha/listar
+
+app.MapGet("/api/folha/listar", ([FromServices] AppDataContext ctx) => 
+{
+    if(ctx.FolhaPagamentos.Any())
+    {
+         return Results.Ok(ctx.FolhaPagamentos.ToList());
+
+    }
+    return Results.NotFound("Tabela está vazia!");
+}
+);
+
+//POST	http://localhost:5206/api/folha/buscar/{cpf}/{mes}/{ano}
 
 
 

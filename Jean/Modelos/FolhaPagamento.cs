@@ -6,7 +6,8 @@ public class FolhaPagamento{
           Id = Guid.NewGuid().ToString();
           CriadoEm = DateTime.Now;
         }
-        public FolhaPagamento(double valor, double trabalhadas, double mes, double ano){
+        public FolhaPagamento( string nome, double valor, double trabalhadas, double mes, double ano){
+          Nome = nome;
           ValorHoras = valor;
           QuantTrabalhadas = trabalhadas;
           Mes = mes;
@@ -15,6 +16,7 @@ public class FolhaPagamento{
           CriadoEm = DateTime.Now;
     
         }
+         public string Nome {get; set;}        
          public double ValorHoras {get; set;}
 
          public double QuantTrabalhadas {get; set;}
